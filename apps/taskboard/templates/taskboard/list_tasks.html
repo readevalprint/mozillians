@@ -1,6 +1,11 @@
 {% extends "taskboard/base.html" %}
 
 {% block main_content %}
+  <div class="btn-toolbar">
+    <div class="btn-group">
+      <button class="btn">New Task</button>
+    </div>
+  </div>
   <ul>
     {% for task in task_list %}
       <li>

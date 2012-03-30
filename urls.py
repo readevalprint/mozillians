@@ -26,7 +26,7 @@ handler_csrf = lambda r, cb=None: error_page(r, 'csrf_error', status=400)
 urlpatterns = patterns('',
     (r'', include('users.urls')),
     (r'', include('groups.urls')),
-    (r'', include('taskboard.urls')),
+    (r'^tasks/', include('taskboard.urls')),
 
     (r'^csp', include('csp.urls')),
 
