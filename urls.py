@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 from django.views.i18n import javascript_catalog
+from ajax_select import urls as ajax_select_urls
 
 admin.autodiscover()
 
@@ -30,6 +31,7 @@ urlpatterns = patterns('',
 
     (r'^csp', include('csp.urls')),
 
+    (r'^admin/lookups/', include(ajax_select_urls)),
     (r'^admin/', include(admin.site.urls)),
     url(r'^jsi18n/$', cache_page(60 * 60 * 24 * 365)(javascript_catalog),
         {'domain': 'javascript', 'packages': ['mozillians']}, name='jsi18n'),

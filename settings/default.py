@@ -70,6 +70,9 @@ MINIFY_BUNDLES = {
         'test': (
             'css/qunit.css',
         ),
+        'taskboard': (
+            'css/ajax_select.css',
+        ),
     },
     'js': {
         'common': (
@@ -103,6 +106,9 @@ MINIFY_BUNDLES = {
             'js/libs/backbone.js',
             'js/libs/backbone.localStorage.js',
             'js/profiles.js',
+        ),
+        'taskboard': (
+            'js/libs/ajax_select.js',
         ),
         'test': (
             'js/libs/qunit.js',
@@ -150,6 +156,7 @@ INSTALLED_APPS = list(base.INSTALLED_APPS) + [
     'django.contrib.auth',
     'django_browserid',
     'bootstrapform',
+    'ajax_select',
 
     # DB migrations
     'south',
@@ -219,6 +226,16 @@ USERNAME_BLACKLIST = ('save', 'tofumatt', 'lonelyvegan', 'tag', 'group',
 # Sorl settings
 THUMBNAIL_DUMMY = True
 THUMBNAIL_PREFIX = 'uploads/sorl-cache/'
+
+# AJAX select settings
+AJAX_SELECT_INLINES = False
+AJAX_SELECT_BOOTSTRAP = False
+AJAX_LOOKUP_CHANNELS = {
+    'userprofile' : {
+        'model': 'users.UserProfile',
+        'search_field': 'display_name'
+    }
+}
 
 # This is for the commons/helper.py thumbnail.
 DEFAULT_IMAGE_SRC = path('./media/uploads/unknown.png')
