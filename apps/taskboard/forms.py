@@ -1,19 +1,30 @@
 from groups.forms import GroupField
-from happyforms import ModelForm
+from django import forms
 from taskboard.models import Task
+from bootstrap.forms import BootstrapModelForm, Fieldset
+from tower import ugettext as _, ugettext_lazy as _lazy
+from ajax_select.fields import AutoCompleteSelectField
 
 
-class TaskForm(ModelForm):
+class TaskForm(BootstrapModelForm):
     # TODO - Make contacts (users) autocomplete
     groups = GroupField(required=False)
+    instructions = forms.CharField(widget=forms.Textarea(attrs={'placeholder': _('Tell us all about it...')}))
+    contact = AutoCompleteSelectField('userprofile', required=False, help_text=None)
 
     class Meta:
+        layout = (
+            Fieldset(_('Create Task'), 'summary', 'instructions'),
+            Fieldset('', 'groups', 'contact')
+        )
         model = Task
 
     def save(self, commit=True):
         """Sync the groups from the form and DB keeping system groups."""
         # have to use commit=False to avoid it automatically adding and
         # removing groups.
+        print "TaskForm.save() called"
+        print ''
         task = super(TaskForm, self).save(commit=False)
         task.save()
         # not using task.save_m2m b/c that would blindly remove

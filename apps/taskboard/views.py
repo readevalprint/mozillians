@@ -10,15 +10,10 @@ class CreateTask(CreateView):
     template_name = 'taskboard/edit_task.html'
     model = Task
 
-    def get_context_data(self, **kwargs):
-        context = super(CreateTask, self).get_context_data(**kwargs)
-        context['cancel_url'] = reverse('taskboard_task_list')
-        return context
-
     def get_success_url(self):
         # had to do this instead of just defining success_url because it
         # seems that URLs aren't yet ready when this module is first imported
-        return reverse('taskboard_task_list')
+        return reverse('list_tasks')
 
 
 class EditTask(UpdateView):
@@ -29,17 +24,17 @@ class EditTask(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(EditTask, self).get_context_data(**kwargs)
-        context['cancel_url'] = reverse('taskboard_task_detail',
+        context['cancel_url'] = reverse('view_task',
                                         kwargs={'pk': self.object.pk})
         return context
 
     def get_success_url(self):
-        return reverse('taskboard_task_detail', kwargs={'pk': self.object.pk})
+        return reverse('view_task', kwargs={'pk': self.object.pk})
 
 
 class ViewTask(DetailView):
     model = Task
-    template_name = 'taskboard/task_detail.html'
+    template_name = 'taskboard/view_task.html'
 
 
 class ListTasks(ListView):
