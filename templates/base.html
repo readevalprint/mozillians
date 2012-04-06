@@ -6,8 +6,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>{{ _('Mozillians') }}: {% block page_title %}
-    {{ _('Welcome') }}{% endblock %}</title>
+  <title>{{ _('Mozillians') }}: {% block page_title %}{{ _('Welcome') }}{% endblock %}</title>
   <meta name="description" content="{{ _("Mozilla's contributor phonebook") }}">
   <meta name="author" content="Mozilla">
 
@@ -20,6 +19,15 @@
 
   {% block site_css %}
     {{ css('common') }}
+  {% endblock %}
+
+  {% block site_js %}
+    <script src="{{ url('jsi18n') }}"></script>
+    {{ js('common') }}
+    {% include "includes/webtrends_desktop.html" %}
+  {% endblock %}
+
+  {% block page_js %}
   {% endblock %}
 
   <link rel="shortcut icon" type="image/ico" href="{{ MEDIA_URL }}favicon.ico">
@@ -151,12 +159,6 @@
 <form method="POST" class="browserid_action_form" action="{{ url('browserid_verify') }}">{{ csrf() }}
   {{ browserid_form.as_p() }}
 </form>
-{% block site_js %}
-  <script src="{{ url('jsi18n') }}"></script>
-  {{ js('common') }}
-  {% include "includes/webtrends_desktop.html" %}
-{% endblock %}
-{% block page_js %}{% endblock %}
 <script src="https://browserid.org/include.js" type="text/javascript"></script>
 </body>
 </html>

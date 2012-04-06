@@ -1,8 +1,17 @@
 {% extends "taskboard/base.html" %}
 
 {% block page_title %}{{ _('Edit A Task') }}{% endblock %}
-{% block body_id %}edit-profile{% endblock %}
+{% block body_id %}edit-task{% endblock %}
 {% block body_classes %}box-content{% endblock %}
+
+{% block page_js %}
+  {{ js('taskboard') }}
+{% endblock %}
+
+{% block site_css %}
+  {{ super() }}
+  {{ css('taskboard') }}
+{% endblock %}
 
 {% block main_content %}
   {% set f=form %}
@@ -18,7 +27,7 @@
             {{ _('Create Task') }}
           {% endif %}
         </button>
-        <button class="btn">Cancel</button>
+        <a href="{{ url('list_tasks') }}" class="btn">Cancel</a>
       </div>
     </form>
   </section>

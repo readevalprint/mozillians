@@ -6,21 +6,17 @@
       <a href={{ url('new_task') }} class="btn">New Task</a>
     </div>
   </div>
-  <ul>
-    {% for task in task_list %}
-      <li>
-        <section>
-          <img src="{{ task.contact.photo_url() }}"/>
-          <h1>{{ task.summary }}</h1>
-          <ul>
-            {% for group in task.groups.all() %}
-              <li> {{ group }}</li>
-            {% endfor %}
-          </ul>
-        </section>
-      </li>
-    {% else %}
-      <li>{% trans %}No Tasks{% endtrans %}</li>
-    {% endfor %}
-  </ul>
+  {% for task in task_list %}
+    <section>
+      <h1><a href="{{ task.get_absolute_url() }}"> {{ task.summary }}</a></h1>
+      <p>{{ task.instructions }}</p>
+      <ul>
+        {% for group in task.groups.all() %}
+          <li> {{ group }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% else %}
+    <p>{% trans %}No Tasks{% endtrans %}</p>
+  {% endfor %}
 {% endblock %}

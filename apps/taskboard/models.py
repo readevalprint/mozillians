@@ -3,6 +3,7 @@ from datetime import datetime
 from django.db import models
 from django.db.models import signals as dbsignals
 from django.dispatch import receiver
+from django.core.urlresolvers import reverse
 
 from elasticutils import S
 from elasticutils.models import SearchMixin
@@ -45,6 +46,9 @@ class Task(SearchMixin, models.Model):
         q = dict((field, query) for field in fields)
         s = S(cls).query(or_=q).filter(disabled=False)
         return s
+
+    def get_absolute_url(self):
+        return reverse('view_task', args=[self.id])
 
 
 @receiver(dbsignals.post_save, sender=Task)

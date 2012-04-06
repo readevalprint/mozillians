@@ -72,6 +72,7 @@ MINIFY_BUNDLES = {
         ),
         'taskboard': (
             'css/ajax_select.css',
+            'css/taskboard.css',
         ),
     },
     'js': {
@@ -91,11 +92,9 @@ MINIFY_BUNDLES = {
             'js/libs/bootstrap/bootstrap-tab.js',
             'js/libs/validation/validation.js',
             'js/main.js',
-            'js/browserid.js',
-            'js/groups.js',
-        ),
-        'edit_profile': (
             'js/libs/tag-it/js/tag-it.js',
+            'js/groups.js',
+            'js/browserid.js',
         ),
         'search': (
             'js/libs/jquery.endless-scroll.js',
