@@ -1,7 +1,6 @@
 from groups.forms import GroupField
 from django import forms
 from taskboard.models import Task
-from bootstrap.forms import BootstrapModelForm, Fieldset
 from tower import ugettext as _, ugettext_lazy as _lazy
 from ajax_select.fields import AutoCompleteSelectField
 
