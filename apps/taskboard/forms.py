@@ -5,17 +5,13 @@ from tower import ugettext as _, ugettext_lazy as _lazy
 from ajax_select.fields import AutoCompleteSelectField
 
 
-class TaskForm(BootstrapModelForm):
+class TaskForm(forms.ModelForm):
     # TODO - Make contacts (users) autocomplete
     groups = GroupField(required=False)
     instructions = forms.CharField(widget=forms.Textarea(attrs={'placeholder': _('Tell us all about it...')}))
     contact = AutoCompleteSelectField('userprofile', required=False, help_text=None)
 
     class Meta:
-        layout = (
-            Fieldset(_('Create Task'), 'summary', 'instructions'),
-            Fieldset('', 'groups', 'contact')
-        )
         model = Task
 
     def save(self, commit=True):
