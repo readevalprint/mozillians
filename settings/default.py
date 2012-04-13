@@ -32,7 +32,7 @@ PROTOCOL = "https://"
 PORT = 443
 
 ## Media and templates.
-TEMPLATE_DIRS = (path('apps/users/templates'), )
+TEMPLATE_DIRS = (path('templates'), )
 STATICFILES_DIRS = (
     pre.UPLOAD_ROOT,
 )
@@ -135,7 +135,21 @@ BROWSERID_CREATE_USER = True
 # On Login, we redirect through register.
 LOGIN_REDIRECT_URL = '/register'
 
-INSTALLED_APPS = list(base.INSTALLED_APPS) + [
+INSTALLED_APPS = (
+    # Copied from funfactory to remove django_sha2
+    'funfactory',  # Content common to most playdoh-based apps.
+    'jingo_minify',
+    'tower',  # for ./manage.py extract (L10n)
+    'cronjobs',  # for ./manage.py cron * cmd line tasks
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'commonware.response.cookies',
+    'djcelery',
+    'django_nose',
+    'session_csrf',
+    'product_details',
+
     # These need to go in order of migration.
     'users',
     'phonebook',
@@ -152,7 +166,7 @@ INSTALLED_APPS = list(base.INSTALLED_APPS) + [
     'sorl.thumbnail',
 
     'django.contrib.admin',
-    'django.contrib.auth',
+    # 'django.contrib.auth',
     'django_browserid',
     'bootstrapform',
     'ajax_select',
@@ -161,8 +175,7 @@ INSTALLED_APPS = list(base.INSTALLED_APPS) + [
     'south',
     # re-assert dominance of 'django_nose'
     'django_nose',
-
-]
+    )
 
 ## Auth
 PWD_ALGORITHM = 'bcrypt'
