@@ -122,6 +122,7 @@ MIDDLEWARE_CLASSES = list(base.MIDDLEWARE_CLASSES) + [
     'commonware.response.middleware.GraphiteRequestTimingMiddleware',
     'csp.middleware.CSPMiddleware',
     'phonebook.middleware.PermissionDeniedMiddleware',
+    'waffle.middleware.WaffleMiddleware',
 ]
 
 # StrictTransport
@@ -170,6 +171,7 @@ INSTALLED_APPS = (
     'django_browserid',
     'bootstrapform',
     'ajax_select',
+    'waffle',
 
     # DB migrations
     'south',
