@@ -28,6 +28,9 @@ DATABASES = {
     },
 }
 
+# Useful ./manage.py commands for debugging .
+INSTALLED_APPS += ('django_extensions', )
+
 #Serve Profile Photos from django
 UPLOAD_URL = '/media/uploads'
 
