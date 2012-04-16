@@ -4,182 +4,189 @@
 <!--[if IE 8 ]>  <html class="no-js ie8" lang="{{ LANG }}" dir="{{ DIR }}"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="{{ LANG }}" dir="{{ DIR }}"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8">
+<meta charset="utf-8">
 
-  <title>{{ _('Mozillians') }}: {% block page_title %}{{ _('Welcome') }}{% endblock %}</title>
-  <meta name="description" content="{{ _("Mozilla's contributor phonebook") }}">
-  <meta name="author" content="Mozilla">
+<title>{{ _('Mozillians') }}: {% block page_title %}{{ _('Welcome') }}{% endblock %}</title>
+<meta name="description" content="{{ _("Mozilla's contributor phonebook") }}">
+<meta name="author" content="Mozilla">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="apple-touch-icon" href="{{ MEDIA_URL }}apple-touch-icon.png">
-  <link rel="search" type="application/opensearchdescription+xml"
-        title="{{ _('Mozillians') }}" href="{{ url('search_plugin') }}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="apple-touch-icon" href="{{ MEDIA_URL }}apple-touch-icon.png">
+<link rel="search" type="application/opensearchdescription+xml"
+title="{{ _('Mozillians') }}" href="{{ url('search_plugin') }}">
 
-  {% block site_css %}
-    {{ css('common') }}
-  {% endblock %}
+{% block site_css %}
+  {{ css('common') }}
+{% endblock %}
 
-  {% block site_js %}
-    <script src="{{ url('jsi18n') }}"></script>
-    {{ js('common') }}
-    {% include "includes/webtrends_desktop.html" %}
-  {% endblock %}
+{% block site_js %}
+  <script src="{{ url('jsi18n') }}"></script>
+  {{ js('common') }}
+  {% include "includes/webtrends_desktop.html" %}
+{% endblock %}
 
-  {% block page_js %}
-  {% endblock %}
+{% block page_js %}
+{% endblock %}
 
-  <link rel="shortcut icon" type="image/ico" href="{{ MEDIA_URL }}favicon.ico">
-  {% block feeds %}{% endblock %}
-  {% block extra_headers %}{% endblock %}
+<link rel="shortcut icon" type="image/ico" href="{{ MEDIA_URL }}favicon.ico">
+
+{% block feeds %}{% endblock %}
+{% block extra_headers %}{% endblock %}
 </head>
 
 <body id="body-{% block body_id %}mozillians{% endblock %}"
-  class="{% block body_classes %}{% endblock %}
-  {{ 'auth' if user.is_authenticated() else 'anon' }}"
-  data-locale="{{ LANG }}">
+class="{% block body_classes %}{% endblock %}
+{{ 'auth' if user.is_authenticated() else 'anon' }}"
+data-locale="{{ LANG }}">
 
 <ul id="skip" class="hide">
   <li><a href="#main">{{ _('Skip to Content') }}</a></li>
 </ul>
 {% block nav %}
   <nav class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-        <a class="brand" href="{{ url('home') }}">{{ _('Mozillians') }}</a>
-        <div class="nav-collapse">
-          {% if user.is_authenticated() and user.userprofile.is_complete() and user.get_profile().is_vouched %}
-            {% block search %}
-              <ul class="nav">
-                <li>
-                  <form class="navbar-search pull-left"
-                      action="{{ url('search') }}" method="GET">
-                    <input type="text" name="q" class="search-query"
-                        placeholder="{{ _('Name, IRC Nick, or Email') }}">
-                  </form>
-                </li>
-                </ul>
-            {% endblock %}
-	       {% endif %}
-          <ul class="nav pull-right">
-            {% if user.is_authenticated() and user.userprofile.is_complete() %}
-              <li class="{{ nav_about}}"><a href="{{ url('about') }}">About</a></li>
-              <li class="dropdown" id="profile_menu">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#profile_menu">
-                  {% if user.username.startswith('u/') %}
-                    {{ _('Options') }}
-                  {% else %}
-                    {{ user.username }}
-                  {% endif %}
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a id="profile" href="{{ url('profile', user.username) }}">
-                      {{ _('View Profile') }}
-                    </a>
-                  </li>
-                  {% if user.get_profile().is_vouched %}
-                    <li class="{{nav_invite}}">
-                      <a id="invite" href="{{ url('invite') }}">
-                        {{ _('Invite') }}
-                      </a>
-                    </li>
-                  {% endif %}
-                  <li class="divider"></li>
-                  <li>
-                    <a id="edit_profile" href="{{ url('profile.edit') }}">
-                      {{ _('Settings') }}
-                    </a>
-                  </li>
-                  <li>
-                    <a id="logout" href="{{ url('logout') }}">{{ _('Log Out') }}</a>
-                  </li>
-                </ul>
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="{{ url('home') }}">{{ _('Mozillians') }}</a>
+      <div class="nav-collapse">
+        {% if user.is_authenticated() and user.userprofile.is_complete() and user.get_profile().is_vouched %}
+          {% block search %}
+            <ul class="nav">
+              <li>
+                <form class="navbar-search pull-left"
+                  action="{{ url('search') }}" method="GET">
+                  <input type="text" name="q" class="search-query"
+                  placeholder="{{ _('Name, IRC Nick, or Email') }}">
+                </form>
               </li>
-            {% else  %}
-              <li class="pull-right">
-                <a class="browser_id_login" href="#join_us">
-                  <img alt="{{ _('Sign in with BrowserID') }}"
-                       src="{{ MEDIA_URL }}img/sign_in_blue.png">
-                </a>
-              </li>
+            </ul>
+          {% endblock %}
+        {% endif %}
+        <ul class="nav pull-right">
+          {% if user.is_authenticated() and user.userprofile.is_complete() %}
+            {% if waffle.switch('taskboard') %}
+              <li class="{{ nav_tasks }}"><a href="{{ url('list_tasks') }}">{{ _("Tasks") }}</a></li>
             {% endif %}
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
+            <li class="{{ nav_about }}"><a href="{{ url('about') }}">{{ _("About") }}</a></li>
+            <li class="dropdown" id="profile_menu">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#profile_menu">
+                {% if user.username.startswith('u/') %}
+                  {{ _('Options') }}
+                {% else %}
+                  {{ user.username }}
+                {% endif %}
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a id="profile" href="{{ url('profile', user.username) }}">
+                    {{ _('View Profile') }}
+                  </a>
+                </li>
+                {% if user.get_profile().is_vouched %}
+                  <li class="{{nav_invite}}">
+                    <a id="invite" href="{{ url('invite') }}">
+                      {{ _('Invite') }}
+                    </a>
+                  </li>
+                {% endif %}
+                <li class="divider"></li>
+                <li>
+                  <a id="edit_profile" href="{{ url('profile.edit') }}">
+                    {{ _('Settings') }}
+                  </a>
+                </li>
+                <li>
+                  <a id="logout" href="{{ url('logout') }}">{{ _('Log Out') }}</a>
+                </li>
+              </ul>
+            </li>
+          {% else  %}
+            <li class="pull-right">
+              <a class="browser_id_login" href="#join_us">
+                <img alt="{{ _('Sign in with BrowserID') }}"
+                src="{{ MEDIA_URL }}img/sign_in_blue.png">
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div><!--/.nav-collapse -->
     </div>
+  </div>
   </nav>
 {% endblock nav %}
 
 
 
-  <div id="main" class="container">
-    {% block messages %}
-      {% if messages %}
-        {% for message in messages %}
-          {% with %}
-            {% set label = message.tags in ['error', 'success', 'info'] %}
-            <div class="alert{% if label %} alert-{{ message.tags }}{% endif %} offset1 span8" id="pending-approval">{{ message }}</div>
-          {% endwith %}
-        {% endfor %}
-      {% endif %}
-    {% endblock messages %}
+<div id="main" class="container">
 
-    {% block main_content %}{% endblock %}
+  {% block sub_nav %}
+  {% endblock %}
+  {% block messages %}
+    {% if messages %}
+      {% for message in messages %}
+        {% with %}
+          {% set label = message.tags in ['error', 'success', 'info'] %}
+          <div class="alert{% if label %} alert-{{ message.tags }}{% endif %} offset1 span8" id="pending-approval">{{ message }}</div>
+        {% endwith %}
+      {% endfor %}
+    {% endif %}
+  {% endblock messages %}
+
+  {% block main_content %}{% endblock %}
+</div>
+
+<footer>
+<div class="container row">
+  <p class="span4">
+  {% trans %}
+  Except where otherwise
+  <a href="http://mozilla.com/about/legal.html#site">noted</a>,
+  content on this site is licensed under the
+  <a href="http://creativecommons.org/licenses/by-sa/3.0/">
+    Creative Commons Attribution Share-Alike License v3.0
+  </a> or any later version.
+  {% endtrans %}
+  </p>
+  <p id="footer-links" class="span4">
+  {% block footer_links %}
+    <a href="{{ url('about') }}">
+      {{ _('About Mozillians') }}
+    </a>
+    &nbsp;|&nbsp;
+    <a href="https://wiki.mozilla.org/Mozillians#Get_Involved">
+      {{ _('Get Involved') }}
+    </a>
+    &nbsp;|&nbsp;
+    <a href="http://www.mozilla.org/{{ LANG }}/privacy-policy.html">
+      {{ _('Privacy Policy') }}
+    </a>
+    &nbsp;|&nbsp;
+    <a href="http://mozilla.com/about/legal.html">
+      {{ _('Legal Notices') }}
+    </a>
+    &nbsp;|&nbsp;
+    <a href="http://mozilla.com/legal/fraud-report/index.html">
+      {{ _('Report Trademark Abuse') }}
+    </a>
+    {% block extra_footer_links %}{% endblock %}
+  {% endblock %}
+  </p>
+  <div class="span2">
+    {% block lang_switcher %}
+      {% include 'includes/lang_switcher.html' %}
+    {% endblock %}
   </div>
-
-  <footer>
-    <div class="container row">
-      <p class="span4">
-        {% trans %}
-          Except where otherwise
-          <a href="http://mozilla.com/about/legal.html#site">noted</a>,
-          content on this site is licensed under the
-          <a href="http://creativecommons.org/licenses/by-sa/3.0/">
-            Creative Commons Attribution Share-Alike License v3.0
-          </a> or any later version.
-        {% endtrans %}
-      </p>
-      <p id="footer-links" class="span4">
-        {% block footer_links %}
-          <a href="{{ url('about') }}">
-            {{ _('About Mozillians') }}
-          </a>
-          &nbsp;|&nbsp;
-          <a href="https://wiki.mozilla.org/Mozillians#Get_Involved">
-            {{ _('Get Involved') }}
-          </a>
-          &nbsp;|&nbsp;
-          <a href="http://www.mozilla.org/{{ LANG }}/privacy-policy.html">
-            {{ _('Privacy Policy') }}
-          </a>
-          &nbsp;|&nbsp;
-          <a href="http://mozilla.com/about/legal.html">
-            {{ _('Legal Notices') }}
-          </a>
-          &nbsp;|&nbsp;
-          <a href="http://mozilla.com/legal/fraud-report/index.html">
-            {{ _('Report Trademark Abuse') }}
-          </a>
-          {% block extra_footer_links %}{% endblock %}
-        {% endblock %}
-      </p>
-      <div class="span2">
-        {% block lang_switcher %}
-          {% include 'includes/lang_switcher.html' %}
-        {% endblock %}
-      </div>
   </footer>
 
-{# To add browserid Login to something add the class .browser_id_login to an element #}
-<form method="POST" class="browserid_action_form" action="{{ url('browserid_verify') }}">{{ csrf() }}
-  {{ browserid_form.as_p() }}
-</form>
-<script src="https://browserid.org/include.js" type="text/javascript"></script>
+  {# To add browserid Login to something add the class .browser_id_login to an element #}
+  <form method="POST" class="browserid_action_form" action="{{ url('browserid_verify') }}">{{ csrf() }}
+    {{ browserid_form.as_p() }}
+  </form>
+  <script src="https://browserid.org/include.js" type="text/javascript"></script>
 </body>
 </html>

@@ -1,11 +1,11 @@
 {% extends "taskboard/base.html" %}
 
+{% set nav_list_tasks = "active" %}
+{% block sub_nav %}
+  {{ super() }}
+{% endblock %}
+
 {% block main_content %}
-  <div class="btn-toolbar">
-    <div class="btn-group">
-      <a href={{ url('new_task') }} class="btn">New Task</a>
-    </div>
-  </div>
   {% for task in task_list %}
     <section>
       <h1><a href="{{ task.get_absolute_url() }}"> {{ task.summary }}</a></h1>

@@ -13,12 +13,20 @@
   {{ css('taskboard') }}
 {% endblock %}
 
+{% if not task %}
+  {% set nav_new_task = "active" %}
+{% endif %}
+
+{% block sub_nav %}
+  {{ super() }}
+{% endblock %}
+
 {% block main_content %}
   {% set f=form %}
   <section>
     <form class="well form-horizontal" action="" method="POST" >
       {{ csrf() }}
-      {{ form }}
+      {{ bootstrap(form) }}
       <div class="form-actions">
         <button id="submit" class="btn btn-primary">
           {% if self.object %}
