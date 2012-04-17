@@ -33,9 +33,6 @@ PORT = 443
 
 ## Media and templates.
 TEMPLATE_DIRS = (path('templates'), )
-STATICFILES_DIRS = (
-    pre.UPLOAD_ROOT,
-)
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -108,6 +105,7 @@ MINIFY_BUNDLES = {
         ),
         'taskboard': (
             'js/libs/ajax_select.js',
+            'js/taskboard.js',
         ),
         'test': (
             'js/libs/qunit.js',

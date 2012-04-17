@@ -23,7 +23,7 @@ class Task(SearchMixin, models.Model):
                                 help_text=_(u'yyyy-mm-dd'))
     created = models.DateTimeField(_(u'Created Date'), default=datetime.utcnow,
                                    editable=False)
-    assigned = models.DateField(_(u'Deadline'), blank=True, null=True,
+    assigned = models.DateField(_(u'Assigned'), blank=True, null=True,
                                 help_text=_(u'yyyy-mm-dd'))
     accepted_by = models.ForeignKey(UserProfile, blank=True, null=True,
                                     verbose_name=_(u'Accepted by'),

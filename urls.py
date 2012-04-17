@@ -31,7 +31,7 @@ urlpatterns = patterns('',
 
     (r'^csp', include('csp.urls')),
 
-    (r'^admin/lookups/', include(ajax_select_urls)),
+    (r'^lookups/', include(ajax_select_urls)),
     (r'^admin/', include(admin.site.urls)),
     url(r'^jsi18n/$', cache_page(60 * 60 * 24 * 365)(javascript_catalog),
         {'domain': 'javascript', 'packages': ['mozillians']}, name='jsi18n'),

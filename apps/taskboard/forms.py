@@ -13,6 +13,7 @@ class TaskForm(forms.ModelForm):
 
     class Meta:
         model = Task
+        exclude = ['accepted_by', 'assigned']
 
     def save(self, commit=True):
         """Sync the groups from the form and DB keeping system groups."""
