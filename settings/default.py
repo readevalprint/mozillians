@@ -250,10 +250,7 @@ THUMBNAIL_PREFIX = 'uploads/sorl-cache/'
 AJAX_SELECT_INLINES = False
 AJAX_SELECT_BOOTSTRAP = False
 AJAX_LOOKUP_CHANNELS = {
-    'userprofile' : {
-        'model': 'users.UserProfile',
-        'search_field': 'display_name'
-    }
+    'userprofile' : ('taskboard.lookups', 'UserProfileLookup')
 }
 
 # This is for the commons/helper.py thumbnail.

@@ -9,7 +9,7 @@ class TaskForm(forms.ModelForm):
     # TODO - Make contacts (users) autocomplete
     groups = GroupField(required=False)
     instructions = forms.CharField(widget=forms.Textarea(attrs={'placeholder': _('Tell us all about it...')}))
-    contact = AutoCompleteSelectField('userprofile', required=False, help_text=None)
+    contact = AutoCompleteSelectField('userprofile', required=True, help_text=None)
 
     class Meta:
         model = Task

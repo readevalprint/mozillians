@@ -10,11 +10,22 @@
     <section>
       <h1><a href="{{ task.get_absolute_url() }}"> {{ task.summary }}</a></h1>
       <p>{{ task.instructions }}</p>
-      <ul>
-        {% for group in task.groups.all() %}
-          <li> {{ group }}</li>
-        {% endfor %}
-      </ul>
+      {% if task.groups.all() %}
+        <ul class="tagit ui-widget ui-widget-content ui-corner-all">
+          {% for group in task.groups.all() %}
+            <li class="tagit-choice ui-widget-content ui-state-default
+              ui-corner-all p-category category">
+              {% if request.user.get_profile().is_vouched %}
+                <a href="{{ url('group', group.id, group.url) }}">
+                  {{ group.name }}
+                </a>
+              {% else %}
+                {{ group.name }}
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
     </section>
   {% else %}
     <p>{% trans %}No Tasks{% endtrans %}</p>
