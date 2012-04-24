@@ -12,6 +12,7 @@ from elasticutils import S
 from elasticutils.models import SearchMixin
 from sorl.thumbnail import ImageField
 from PIL import Image, ImageOps
+from tastypie.models import create_api_key
 from tower import ugettext as _, ugettext_lazy as _lazy
 
 from groups.models import Group, Skill
@@ -171,6 +172,7 @@ class UserProfile(SearchMixin, models.Model):
             s = s.filter(is_vouched=vouched)
         return s
 
+models.signals.post_save.connect(create_api_key, sender=User)
 
 @receiver(models.signals.post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

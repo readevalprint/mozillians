@@ -6,8 +6,8 @@
 
 {% block main_content %}
   <form action="{{ edit_form_action }}"
-        method="POST" enctype="multipart/form-data"
-        class="form-horizontal edit-profile">
+    method="POST" enctype="multipart/form-data"
+    class="form-horizontal edit-profile">
     {{ csrf() }}
     <h1>{{ _('Edit Your Profile') }}</h1>
     <div class="tabbable">
@@ -27,22 +27,22 @@
         </div>
         <div class="tab-pane" id="skills">
           <legend>Groups</legend>
-            <p class="field_description">
-              {% trans %}
-                Groups are a community of Mozillians with some relation to each
-                other. This can be an interest, team, project, product or
-                sub-community.
-              {% endtrans %}
-            </p>
+          <p class="field_description">
+            {% trans %}
+            Groups are a community of Mozillians with some relation to each
+            other. This can be an interest, team, project, product or
+            sub-community.
+            {% endtrans %}
+          </p>
           {{ form.groups.label_tag() }}
           {{ form.groups }}
           <legend>Skills</legend>
-            <p class="field_description">
-              {% trans %}
-                A skill is the learned capacity to carry out pre-determined
-                results often with the minimum outlay of time, energy, or both.
-              {% endtrans %}
-            </p>
+          <p class="field_description">
+            {% trans %}
+            A skill is the learned capacity to carry out pre-determined
+            results often with the minimum outlay of time, energy, or both.
+            {% endtrans %}
+          </p>
           {{ form.skills.label_tag() }}
           {{ form.skills }}
         </div>
@@ -55,15 +55,15 @@
                   <a href="{{ url('profile', profile.vouched_by.user.username) }}" class="vouched">
                     {{ profile.vouched_by.display_name }}
                   </a>
-                {% elif profile.is_vouched %}
+                  {% elif profile.is_vouched %}
                   {{ _('You are automatically vouched!') }}
                 {% else %}
                   {% trans profile_url=absolutify(url('profile', user.username)) %}
-                    You aren't vouched! Send this link to a mozillian who can
-                    vouch for your contributions:
-                    <em class="underline" title="Your profile URL">
-                      {{ profile_url }}
-                    </em>
+                  You aren't vouched! Send this link to a mozillian who can
+                  vouch for your contributions:
+                  <em class="underline" title="Your profile URL">
+                    {{ profile_url }}
+                  </em>
                   {% endtrans %}
                 {% endif %}
               </span>
@@ -99,9 +99,15 @@
             <div class="controls">
               <span class="label-text">
                 {% trans browserid='https://browserid.org/' %}
-                  Change your password at <a href={{ browserid }}>BrowserID</a>
+                Change your password at <a href={{ browserid }}>BrowserID</a>
                 {% endtrans %}
               </span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">{{ _("Api Key") }}</label>
+            <div class="controls">
+              <button class="btn">{{ _("Reset API Key") }}</button>
             </div>
           </div>
           <div class="control-group">
@@ -109,9 +115,9 @@
             <div class="controls">
               <span class="label-text">
                 {% trans %}
-                  I acknowledge that deleting my account will make it tougher
-                  for me to show off my contributions and easily be found by
-                  other members of the Mozilla community.
+                I acknowledge that deleting my account will make it tougher
+                for me to show off my contributions and easily be found by
+                other members of the Mozilla community.
                 {% endtrans %}
               </span>
               <a href="{{ url('profile.delete_confirm') }}" class="btn btn-danger">
