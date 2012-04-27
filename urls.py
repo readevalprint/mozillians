@@ -7,6 +7,12 @@ from django.views.generic.base import TemplateView
 from django.views.i18n import javascript_catalog
 from ajax_select import urls as ajax_select_urls
 
+from tastypie.api import Api
+from taskboard.api import TaskResource
+
+v1_api = Api(api_name='v1')
+v1_api.register(TaskResource())
+
 admin.autodiscover()
 
 
@@ -30,6 +36,7 @@ urlpatterns = patterns('',
     (r'^tasks/', include('taskboard.urls')),
 
     (r'^csp', include('csp.urls')),
+    url(r'^api/', include(v1_api.urls)),
 
     (r'^lookups/', include(ajax_select_urls)),
     (r'^admin/', include(admin.site.urls)),

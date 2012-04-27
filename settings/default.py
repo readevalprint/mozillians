@@ -93,6 +93,9 @@ MINIFY_BUNDLES = {
             'js/groups.js',
             'js/browserid.js',
         ),
+        'user': (
+            'js/user.js',
+        ),
         'search': (
             'js/libs/jquery.endless-scroll.js',
             'js/infinite.js',
@@ -162,6 +165,7 @@ INSTALLED_APPS = (
     'common',
     # 'locations',
 
+    'tastypie',
     'csp',
     'jingo_minify',
     'tower',
