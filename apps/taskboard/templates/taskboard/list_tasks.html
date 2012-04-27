@@ -7,9 +7,15 @@
 
 {% block main_content %}
   {% for task in task_list %}
-    <section>
+    <section class="task well">
       <h1><a href="{{ task.get_absolute_url() }}"> {{ task.summary }}</a></h1>
-      <p>{{ task.instructions }}</p>
+      {% if task.user_can_edit(request.user) %}
+        <a class="btn" href="{{ url("edit_task", slug=task.slug) }}">{{ _("Edit") }}</a>
+      {% endif %}
+      <div class="instructions">{{ markdown(task.instructions) }}</div>
+      {% if task.created_by %}
+        <p>{{ _("Created by:") }}{{ task.created_by }}</p>
+      {% endif %}
       {% if task.groups.all() %}
         <ul class="tagit ui-widget ui-widget-content ui-corner-all">
           {% for group in task.groups.all() %}

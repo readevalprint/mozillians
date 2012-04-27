@@ -13,7 +13,7 @@ class TaskForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        exclude = ['accepted_by', 'assigned']
+        exclude = ['accepted_by', 'assigned', 'created_by', 'slug']
 
     def save(self, commit=True):
         """Sync the groups from the form and DB keeping system groups."""
@@ -34,3 +34,8 @@ class TaskForm(forms.ModelForm):
         task.groups.add(*[g for g in self.cleaned_data['groups']
                           if not g.system])
         return task
+
+class TakeTaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ['accepted_by']

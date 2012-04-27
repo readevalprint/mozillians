@@ -12,7 +12,7 @@ from elasticutils import S
 from elasticutils.models import SearchMixin
 from sorl.thumbnail import ImageField
 from PIL import Image, ImageOps
-from tastypie.models import create_api_key
+from tastypie.models import ApiKey, create_api_key
 from tower import ugettext as _, ugettext_lazy as _lazy
 
 from groups.models import Group, Skill
@@ -84,6 +84,14 @@ class UserProfile(SearchMixin, models.Model):
             getattr(self, f.name).clear()
 
         self.save()
+
+    def get_api_key(self):
+        try:
+            return self.user.api_key.key
+        except ApiKey.DoesNotExist:
+            ApiKey.objects.create(user=self.user)
+            return self.user.api_key.key
+
 
     def set_membership(self, model, membership_list):
         """ Alters membership to Groups and Skillz """

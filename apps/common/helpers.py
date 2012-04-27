@@ -2,12 +2,15 @@ import logging
 import os
 
 from django.conf import settings
+from django.contrib.markup.templatetags import markup
 
 from jingo import register
 from sorl.thumbnail import get_thumbnail
 
 
 logger = logging.getLogger('common.helpers')
+
+markdown = register.function(markup.markdown)
 
 @register.function
 def thumbnail(source, *args, **kwargs):

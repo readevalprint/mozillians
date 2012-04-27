@@ -7,3 +7,4 @@ $(document).ajaxSend(function(event, xhr, settings) {
         $("#id_contact_text").show();
     });
 });
+

@@ -8,14 +8,16 @@ from django.core.urlresolvers import reverse
 from elasticutils import S
 from elasticutils.models import SearchMixin
 from tower import ugettext_lazy as _
+from uuslug import uuslug as slugify
 
 from users.models import UserProfile
 
 
 class Task(SearchMixin, models.Model):
     contact = models.ForeignKey(UserProfile, verbose_name=_(u'Contact'),
-                                related_name="created_tasks")
+                                related_name="contact_for")
     summary = models.CharField(_(u'Summary'), max_length=255)
+    slug = models.CharField(_(u'Slug'), max_length=255, default="")
     instructions = models.TextField(_(u'Instructions'), blank=True)
     groups = models.ManyToManyField('groups.Group', blank=True,
                                     verbose_name=_(u'Groups'))
@@ -29,6 +31,13 @@ class Task(SearchMixin, models.Model):
                                     verbose_name=_(u'Accepted by'),
                                     related_name='accepted_tasks')
     disabled = models.BooleanField(_(u'Disabled'), default=False)
+    created_by = models.ForeignKey(UserProfile, blank=True, null=True,
+                                   verbose_name=_(u'Created by'),
+                                   related_name='created_tasks')
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.summary, instance=self)
+        super(Task, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return u'{0} ({1})'.format(self.summary, self.contact)
@@ -47,8 +56,12 @@ class Task(SearchMixin, models.Model):
         s = S(cls).query(or_=q).filter(disabled=False)
         return s
 
+    def user_can_edit(self, user):
+        profile = user.get_profile()
+        return self.contact == profile or self.created_by == profile or user.is_superuser
+
     def get_absolute_url(self):
-        return reverse('view_task', args=[self.id])
+        return reverse('view_task', args=[self.slug])
 
 
 @receiver(dbsignals.post_save, sender=Task)

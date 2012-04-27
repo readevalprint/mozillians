@@ -4,29 +4,32 @@
 
 {% block main_content %}
   <h1>{{ task.summary }}</h1>
-  <p id="instructions" class="well">
-    {{task.instructions }}
+  <div id="instructions" class="well">
+    {{ markdown(task.instructions) }}
     <br>
-    {% if task.assigned_to %}
-      {{ _("Assigned to") }}: {{ task.assigned_to }}
+    {% if task.accepted_by==request.user.get_profile() %}
+      {{ _("Assigned to") }}: {{ _("You") }}
+      <a href="{{ url("release_task", slug=task.slug) }}"  class="btn">{{ _("Release this task") }}</a>
+    {% elif task.accepted_by %}
+      {{ _("Assigned to") }}: {{ task.accepted_by }}
     {% else %}
-      {{ _("Unassigned") }}:<button class="btn">Take this task</button>
+      <a href="{{ url("take_task", slug=task.slug) }}"  class="btn">{{ _("Take this task") }}</a>
     {% endif %}
-  </p>
-    <ul class="tagit ui-widget ui-widget-content ui-corner-all">
-      {% for group in task.groups.all() %}
-        <li class="tagit-choice ui-widget-content ui-state-default
-          ui-corner-all p-category category">
-          {% if request.user.get_profile().is_vouched %}
-            <a href="{{ url('group', group.id, group.url) }}">
-              {{ group.name }}
-            </a>
-          {% else %}
+  </div>
+  <ul class="tagit ui-widget ui-widget-content ui-corner-all">
+    {% for group in task.groups.all() %}
+      <li class="tagit-choice ui-widget-content ui-state-default
+        ui-corner-all p-category category">
+        {% if request.user.get_profile().is_vouched %}
+          <a href="{{ url('group', group.id, group.url) }}">
             {{ group.name }}
-          {% endif %}
-        </li>
+          </a>
         {% else %}
-          <li>{{ ("No groups") }}</li>
-      {% endfor %}
-    </ul>
+          {{ group.name }}
+        {% endif %}
+      </li>
+    {% else %}
+      <li>{{ ("No groups") }}</li>
+    {% endfor %}
+  </ul>
 {% endblock %}

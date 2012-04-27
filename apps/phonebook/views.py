@@ -12,6 +12,7 @@ from django.views.decorators.http import require_POST
 
 import commonware.log
 from funfactory.urlresolvers import reverse
+from tastypie.models import ApiKey, create_api_key
 from tower import ugettext as _
 
 from groups.helpers import stringify_groups
@@ -68,6 +69,13 @@ def edit_profile(request):
     user_skills = stringify_groups(profile.skills.all().order_by('name'))
 
     if request.method == 'POST':
+        if 'reset_api_key' in request.POST:
+            try:
+                request.user.api_key.delete()
+            except ApiKey.DoesNotExist:
+                pass
+            return redirect(reverse('profile.edit'))
+
         form = forms.ProfileForm(
                 request.POST,
                 request.FILES,
