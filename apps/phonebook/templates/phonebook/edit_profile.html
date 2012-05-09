@@ -5,6 +5,11 @@
   {{ js('edit_profile') }}
 {% endblock %}
 
+{% block site_css %}
+  {{ super() }}
+  {{ css('edit_profile') }}
+{% endblock %}
+
 {% block page_title %}{{ _('Edit Your Profile') }}{% endblock %}
 {% block body_id %}edit-profile{% endblock %}
 {% block body_classes %}box-content{% endblock %}
@@ -32,7 +37,7 @@
           {{ bootstrap(form.bio) }}
         </div>
         <div class="tab-pane" id="skills">
-          <legend>{{ _("Groups") }}</legend>
+          <h2>{{ _("Groups") }}</h2>
           <p class="field_description">
             {% trans %}
               Groups are a community of Mozillians with some relation to each
@@ -42,7 +47,7 @@
           </p>
           {{ form.groups.label_tag() }}
           {{ form.groups }}
-          <legend>{{ _("Skills") }}</legend>
+          <h2>{{ _("Skills") }}</h2>
           <p class="field_description">
             {% trans %}
               A skill is the learned capacity to carry out pre-determined
@@ -129,7 +134,7 @@
         <div class="tab-pane" id="services">
 
           <div class="control-group">
-            <legend>{{ _("API") }}</legend>
+            <h2>{{ _("API") }}</h2>
             <p class="field_description">
               {% trans %}
                 The Mozillians' Phonebook offers an API to Vouched Mozillians to help share profile data to other tools and sites

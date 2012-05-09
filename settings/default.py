@@ -69,6 +69,9 @@ MINIFY_BUNDLES = {
         'test': (
             'css/qunit.css',
         ),
+        'edit_profile': (
+            'css/user.css',
+        ),
     },
     'js': {
         'common': (
