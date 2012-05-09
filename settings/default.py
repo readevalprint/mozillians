@@ -149,6 +149,7 @@ INSTALLED_APPS = list(base.INSTALLED_APPS) + [
     'cronjobs',
     'elasticutils',
     'sorl.thumbnail',
+    'tastypie',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -230,3 +231,5 @@ THUMBNAIL_PREFIX = 'uploads/sorl-cache/'
 
 # This is for the commons/helper.py thumbnail.
 DEFAULT_IMAGE_SRC = path('./media/uploads/unknown.png')
+
+USE_TZ = False
