@@ -15,9 +15,7 @@
 {% block body_classes %}box-content{% endblock %}
 
 {% block main_content %}
-  <form action="{{ edit_form_action }}"
-    method="POST" enctype="multipart/form-data"
-    class="form-horizontal edit-profile">
+  <form action="{{ edit_form_action }}" method="POST" enctype="multipart/form-data" class="form-horizontal edit-profile">
     {{ csrf() }}
     <h1>{{ _('Edit Your Profile') }}</h1>
     <div class="tabbable">
