@@ -353,6 +353,13 @@ class TestUser(TestCase):
         # Good to go
         assert u.get_profile()
 
+    def test_apikey(self):
+        # A new user will not have a key created.
+        u = User.objects.create(username='tmp', email='tmp@domain.com')
+        p = u.get_profile()
+
+        assert p.get_api_key()
+
 
 class TestMigrateRegistration(TestCase):
         """Test funky behavior of flee ldap"""
