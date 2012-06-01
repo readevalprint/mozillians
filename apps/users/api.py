@@ -1,13 +1,10 @@
-from django.template.loader import render_to_string
-from django.template import RequestContext
 from datetime import datetime
 
 from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import ReadOnlyAuthorization
 from tastypie.resources import ModelResource
-from tastypie.serializers import Serializer
-
+from common.api import HTMLSerializer
 from users.models import UserProfile
 
 
@@ -26,18 +23,6 @@ class VouchedAuthentication(Authentication):
         return request.user.username
 
 
-class UserSerializer(Serializer):
-    formats = ['json', 'jsonp', 'xml', 'html']
-    content_types = {
-        'json': 'application/json',
-        'jsonp': 'text/javascript',
-        'xml': 'application/xml',
-        'html': 'text/html',
-    }
-
-    def to_html(self, data, options=None):
-        return render_to_string('api.html', locals())
-
 
 class UserProfileResource(ModelResource):
     email = fields.CharField(attribute='email', null=True, readonly=True)
@@ -46,7 +31,7 @@ class UserProfileResource(ModelResource):
         queryset = UserProfile.objects.select_related()
         authentication = VouchedAuthentication()
         authorization = ReadOnlyAuthorization()
-        serializer = UserSerializer()
+        serializer = HTMLSerializer()
         resource_name = 'users'
         fields = ['display_name', 'id', 'website', 'ircname', 'last_updated']
 
