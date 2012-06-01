@@ -1,0 +1,32 @@
+<!doctype html>
+<html class="no-js" lang="{{ LANG }}" dir="{{ DIR }}">
+  <head>
+    <meta charset="utf-8">
+
+    <title>{{ _('Mozillians') }}: {% block page_title %}
+      {{ _('Welcome') }}{% endblock %}</title>
+    <meta name="description" content="{{ _("Mozilla's contributor phonebook") }}">
+    {{ css('common') }}
+    {{ css('api') }}
+    {{ js('common') }}
+    {{ js('api') }}
+
+    <script>
+    $(function(){
+      prettyPrint();
+    })
+    </script>
+  </head>
+  <body>
+    {% block content %}
+ <strong> test </strong>
+<pre style="border: 1px solid #888;padding: 2px" class="prettyprint"><a name="voila1"></a>class Voila {
+public:
+  // Voila
+  static const string VOILA = "Voila";
+
+  // will not interfere with embedded <a href="#voila1">tags</a>.
+}</pre>
+    {% endblock %}
+  </body>
+</html>

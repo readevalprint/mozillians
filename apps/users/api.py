@@ -1,4 +1,5 @@
-import time
+from django.template.loader import render_to_string
+from django.template import RequestContext
 from datetime import datetime
 
 from tastypie import fields
@@ -25,14 +26,17 @@ class VouchedAuthentication(Authentication):
         return request.user.username
 
 
-class TimeSerialize(Serializer):
-    """
-    Appends the time to every response. This is probably not the 'right'
-    way to do this. I don't know how to do it better.
-    """
-    def serialize(self, bundle, format='application/json', options={}):
-        bundle['time'] = int(time.time())
-        return super(TimeSerialize, self).serialize(bundle, format, options)
+class UserSerializer(Serializer):
+    formats = ['json', 'jsonp', 'xml', 'html']
+    content_types = {
+        'json': 'application/json',
+        'jsonp': 'text/javascript',
+        'xml': 'application/xml',
+        'html': 'text/html',
+    }
+
+    def to_html(self, data, options=None):
+        return render_to_string('api.html', locals())
 
 
 class UserProfileResource(ModelResource):
@@ -42,8 +46,8 @@ class UserProfileResource(ModelResource):
         queryset = UserProfile.objects.select_related()
         authentication = VouchedAuthentication()
         authorization = ReadOnlyAuthorization()
-        serializer = TimeSerialize()
-        resource_name = 'contact'
+        serializer = UserSerializer()
+        resource_name = 'users'
         fields = ['display_name', 'id', 'website', 'ircname', 'last_updated']
 
     def get_object_list(self, request):

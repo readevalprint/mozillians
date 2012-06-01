@@ -66,6 +66,9 @@ MINIFY_BUNDLES = {
             'css/base-768px.css',
             'css/base-980px.css',
         ),
+        'api': (
+            'css/prettify.css',
+        ),
         'test': (
             'css/qunit.css',
         ),
@@ -92,6 +95,9 @@ MINIFY_BUNDLES = {
             'js/main.js',
             'js/browserid.js',
             'js/groups.js',
+        ),
+        'api': (
+            'js/libs/prettify.js',
         ),
         'edit_profile': (
             'js/libs/tag-it/js/tag-it.js',
