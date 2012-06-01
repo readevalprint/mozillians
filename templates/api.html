@@ -6,27 +6,31 @@
     <title>{{ _('Mozillians') }}: {% block page_title %}
       {{ _('Welcome') }}{% endblock %}</title>
     <meta name="description" content="{{ _("Mozilla's contributor phonebook") }}">
-    {{ css('common') }}
     {{ css('api') }}
     {{ js('common') }}
     {{ js('api') }}
 
     <script>
-    $(function(){
-      prettyPrint();
-    })
+      $(function(){
+        $.ajax({
+          url: '',
+          data: {'format': 'json'}
+          }).done(function(msg) {
+          $("#json").html(JSON.stringify(msg, undefined, 2));
+          var url = window.location.pathname + this.url;
+          $("#json_url").attr("href", url).html(url);
+          prettyPrint();
+        });
+      })
     </script>
   </head>
   <body>
     {% block content %}
- <strong> test </strong>
-<pre style="border: 1px solid #888;padding: 2px" class="prettyprint"><a name="voila1"></a>class Voila {
-public:
-  // Voila
-  static const string VOILA = "Voila";
+      <a id="json_url" href=""></a>
+      <pre id="json" style="border: 1px solid #888;padding: 2px; display: block" class="prettyprint">
 
-  // will not interfere with embedded <a href="#voila1">tags</a>.
-}</pre>
+
+      </pre>
     {% endblock %}
   </body>
 </html>
