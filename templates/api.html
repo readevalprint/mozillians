@@ -12,13 +12,18 @@
 
     <script>
       $(function(){
+
+        var queryParameters = {}, queryString = location.search.substring(1), re = /([^&=]+)=([^&]*)/g, m;
+        while (m = re.exec(queryString)) {
+            queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+        };
+        queryParameters['format'] = 'json';
         $.ajax({
-          url: '',
-          data: {'format': 'json'}
+          url: window.location.pathname,
+          data: queryParameters
           }).done(function(msg) {
           $("#json").html(JSON.stringify(msg, undefined, 2));
-          var url = window.location.pathname + this.url;
-          $("#json_url").attr("href", url).html(url);
+          $("#json_url").attr("href", this.url).html(this.url);
           prettyPrint();
         });
       })
@@ -26,7 +31,7 @@
   </head>
   <body>
     {% block content %}
-      <a id="json_url" href=""></a>
+ <a id="json_url" href=""></a>
       <pre id="json" style="border: 1px solid #888;padding: 2px; display: block" class="prettyprint">
 
 
