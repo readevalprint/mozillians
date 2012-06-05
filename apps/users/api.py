@@ -7,7 +7,7 @@ from tastypie.authorization import ReadOnlyAuthorization
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.serializers import Serializer
 
-from users.models import UserProfile
+from users.models import UserProfile, User
 
 
 class VouchedAuthentication(Authentication):
@@ -35,19 +35,40 @@ class TimeSerialize(Serializer):
         return super(TimeSerialize, self).serialize(bundle, format, options)
 
 
-class UserProfileResource(ModelResource):
-    email = fields.CharField(attribute='email', null=True, readonly=True)
+class UserResource(ModelResource):
 
     class Meta:
-        queryset = UserProfile.objects.select_related()
+        queryset = User.objects.all()
         authentication = VouchedAuthentication()
         authorization = ReadOnlyAuthorization()
-        serializer = TimeSerialize()
-        resource_name = 'contact'
-        fields = ['display_name', 'id', 'website', 'ircname', 'last_updated']
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+        resource_name = 'user'
+        fields = ['username', 'id', 'email']
         filtering = {
-            'username': ALL,
-            'display_name': ALL,
+            'username': ['exact', 'contains'],
+            'email': ['exact'],
+            'id': ['exact'],
+        }
+
+
+class UserProfileResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user')
+
+    class Meta:
+        queryset = UserProfile.objects.all()
+        authentication = VouchedAuthentication()
+        authorization = ReadOnlyAuthorization()
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+        resource_name = 'profile'
+        fields = ['display_name', 'id', 'website', 'ircname', 'last_updated',
+                  'is_vouched']
+        filtering = {
+            'user': ALL_WITH_RELATIONS,
+            'display_name': ['exact', 'contains'],
+            'id': ['exact'],
+            'is_vouched': ['exact'],
         }
 
     def get_object_list(self, request):

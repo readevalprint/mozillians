@@ -401,10 +401,10 @@ class TestAPI(TestCase):
 
     fake_assertion = '1234567890'
 
-    def test_display_name(self):
+    def test_profile_schema(self):
         # Remove all users
         User.objects.all().delete()
-
+        # TODO: Use the API KEY for auth
         # Create a user
         register = {
             'username': 'bob',
@@ -417,6 +417,47 @@ class TestAPI(TestCase):
         with browserid_mock.mock_browserid(register['email']):
             self.client.post(reverse('browserid_verify'), d, follow=True)
             self.client.post(reverse('register'), register, follow=True)
-        r = self.client.get('/api/v1/contact/?format=json', follow=True)
+        r = self.client.get('/api/v1/profile/schema/?format=json', follow=True)
         j = json.loads(r.content)
-        eq_(j['objects'][0]['display_name'], 'Robert Tester')
+        fields = ['display_name', 'id', 'website', 'ircname', 'last_updated',
+                  'resource_uri', 'is_vouched']
+
+        assert set(fields) <= set(j['fields'].keys()), ('Fields are missing')
+
+        filtering = j['filtering']
+        assert set(filtering['display_name']) >= set(['exact', 'contains']), (
+                'Regression in display_name filter')
+        assert set(filtering['is_vouched']) >= set(['exact']), (
+                'Regression in is_vouched filter')
+        assert set(filtering['id']) >= set(['exact']), (
+                'Regression in id filter')
+
+    def test_user_schema(self):
+        # Remove all users
+        User.objects.all().delete()
+        # TODO: Use the API KEY for auth
+        # Create a user
+        register = {
+            'username': 'bob',
+            'first_name': 'Robert',
+            'last_name': 'Tester',
+            'optin': True,
+            'email': 'bob@mozilla.com',
+        }
+        d = dict(assertion=self.fake_assertion)
+        with browserid_mock.mock_browserid(register['email']):
+            self.client.post(reverse('browserid_verify'), d, follow=True)
+            self.client.post(reverse('register'), register, follow=True)
+        r = self.client.get('/api/v1/user/schema/?format=json', follow=True)
+        j = json.loads(r.content)
+        fields = ['email', 'id', 'username']
+
+        assert set(fields) <= set(j['fields'].keys()), ('Fields are missing')
+
+        filtering = j['filtering']
+        assert set(filtering['email']) >= set(['exact']), (
+                'Regression in email filter')
+        assert set(filtering['id']) >= set(['exact']), (
+                'Regression in id filter')
+        assert set(filtering['username']) >= set(['exact', 'contains']), (
+                'Regression in id filter')

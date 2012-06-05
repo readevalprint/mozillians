@@ -12,6 +12,7 @@ auth_views.render_to_response = jinja_for_django
 
 v1_api = Api(api_name='v1')
 v1_api.register(api.UserProfileResource())
+v1_api.register(api.UserResource())
 
 
 urlpatterns = patterns('',
