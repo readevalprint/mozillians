@@ -4,7 +4,7 @@ from datetime import datetime
 from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import ReadOnlyAuthorization
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.serializers import Serializer
 
 from users.models import UserProfile
@@ -45,6 +45,10 @@ class UserProfileResource(ModelResource):
         serializer = TimeSerialize()
         resource_name = 'contact'
         fields = ['display_name', 'id', 'website', 'ircname', 'last_updated']
+        filtering = {
+            'username': ALL,
+            'display_name': ALL,
+        }
 
     def get_object_list(self, request):
         if 'updated' in request.GET:

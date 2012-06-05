@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.utils import simplejson as json
 
 from funfactory.urlresolvers import reverse
 from nose.tools import eq_
@@ -386,8 +387,36 @@ class TestMigrateRegistration(TestCase):
             eq_(r.status_code, 200)
 
             # Now let's register
-
             with browserid_mock.mock_browserid(self.email):
                 r = self.client.post(reverse('register'), info, follow=True)
 
             eq_(r.status_code, 200)
+
+
+class TestAPI(TestCase):
+    """
+    For v1 of the api.
+    To preserve backwards compatibility urls are hard coded.
+    """
+
+    fake_assertion = '1234567890'
+
+    def test_display_name(self):
+        # Remove all users
+        User.objects.all().delete()
+
+        # Create a user
+        register = {
+            'username': 'bob',
+            'first_name': 'Robert',
+            'last_name': 'Tester',
+            'optin': True,
+            'email': 'bob@mozilla.com',
+        }
+        d = dict(assertion=self.fake_assertion)
+        with browserid_mock.mock_browserid(register['email']):
+            self.client.post(reverse('browserid_verify'), d, follow=True)
+            self.client.post(reverse('register'), register, follow=True)
+        r = self.client.get('/api/v1/contact/?format=json', follow=True)
+        j = json.loads(r.content)
+        eq_(j['objects'][0]['display_name'], 'Robert Tester')
