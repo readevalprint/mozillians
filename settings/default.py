@@ -98,6 +98,7 @@ MINIFY_BUNDLES = {
         ),
         'api': (
             'js/libs/prettify.js',
+            'js/api.js',
         ),
         'edit_profile': (
             'js/libs/tag-it/js/tag-it.js',
