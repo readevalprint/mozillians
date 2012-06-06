@@ -136,6 +136,7 @@ STS_SUBDOMAINS = True
 # Not all URLs need locale.
 SUPPORTED_NONLOCALES = list(base.SUPPORTED_NONLOCALES) + [
     'csp',
+    'api',
 ]
 
 AUTHENTICATION_BACKENDS = ('common.backends.MozilliansBrowserID',)

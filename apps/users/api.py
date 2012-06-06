@@ -4,6 +4,7 @@ from tastypie import fields
 from tastypie.authentication import Authentication
 from tastypie.authorization import ReadOnlyAuthorization
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
+
 from common.api import HTMLSerializer
 from users.models import UserProfile
 
