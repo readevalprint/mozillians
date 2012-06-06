@@ -15,7 +15,10 @@
 {% block body_classes %}box-content{% endblock %}
 
 {% block main_content %}
-  <form action="{{ edit_form_action }}" method="POST" enctype="multipart/form-data" class="form-horizontal edit-profile">
+  <form action="{{ url('profile.edit') }}"
+        method="POST"
+        enctype="multipart/form-data"
+        class="form-horizontal edit-profile">
     {{ csrf() }}
     <h1>{{ _('Edit Your Profile') }}</h1>
     <div class="tabbable">
@@ -85,9 +88,9 @@
                 <ul class="vouchees">
                   {% for vouchee in my_vouches %}
                     <li class="label-text">
-                      <a href="{{ url('profile', vouchee.user.username) }}" class="vouched">
-                        {{ vouchee.display_name }}
-                      </a>
+                    <a href="{{ url('profile', vouchee.user.username) }}" class="vouched">
+                      {{ vouchee.display_name }}
+                    </a>
                     </li>
                   {% endfor %}
                 </ul>

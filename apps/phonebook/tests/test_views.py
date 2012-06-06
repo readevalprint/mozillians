@@ -286,6 +286,20 @@ class TestViews(TestCase):
         p = self.mozillian.get_profile()
         assert p.get_api_key() == api_key
 
+    def test_reset_api_key(self):
+        """Assert that resetingthe aPI key changes it."""
+        client = self.mozillian_client
+        r = client.get(reverse('profile.edit'), follow=True)
+
+        doc = pq(r.content)
+        current_api_key = doc('#api-key').attr('value')
+
+        data = {
+            'reset_api_key': True,
+                }
+        r = client.post(reverse('profile.edit'), data, follow=True)
+
+
 
 class TestVouch(TestCase):
     """

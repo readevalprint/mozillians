@@ -85,22 +85,22 @@ def edit_profile(request):
                                           'changed.'))
 
             return redirect(reverse('profile', args=[request.user.username]))
-    else:
-        initial = dict(first_name=request.user.first_name,
-                       last_name=request.user.last_name,
-                       bio=profile.bio,
-                       website=profile.website,
-                       irc_nickname=profile.ircname,
-                       groups=user_groups,
-                       skills=user_skills)
 
-        if not request.user.username.startswith('u/'):
-            initial.update(username=request.user.username)
+    initial = dict(first_name=request.user.first_name,
+                   last_name=request.user.last_name,
+                   bio=profile.bio,
+                   website=profile.website,
+                   irc_nickname=profile.ircname,
+                   groups=user_groups,
+                   skills=user_skills)
 
-        form = forms.ProfileForm(
-                instance=profile,
-                initial=initial,
-        )
+    if not request.user.username.startswith('u/'):
+        initial.update(username=request.user.username)
+
+    form = forms.ProfileForm(
+            instance=profile,
+            initial=initial,
+    )
 
     # When changing this keep in mind that the same view is used for
     # user.register.
