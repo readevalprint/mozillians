@@ -67,15 +67,18 @@ def edit_profile(request):
                 request.FILES,
                 instance=profile,
         )
+
+        if 'reset_api_key' in request.POST:
+            # The rest of the form is irrelevant.
+            try:
+                request.user.api_key.delete()
+            except ApiKey.DoesNotExist:
+                pass
+            return redirect(reverse('profile.edit'))
+
         if form.is_valid():
             old_username = request.user.username
             form.save(request)
-            if 'reset_api_key' in request.POST:
-                try:
-                    request.user.api_key.delete()
-                except ApiKey.DoesNotExist:
-                    pass
-                return redirect(reverse('profile.edit'))
 
             # Notify the user that their old profile URL won't work.
             if (not profile.is_vouched and

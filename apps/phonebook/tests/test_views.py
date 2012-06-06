@@ -292,13 +292,14 @@ class TestViews(TestCase):
         r = client.get(reverse('profile.edit'), follow=True)
 
         doc = pq(r.content)
-        current_api_key = doc('#api-key').attr('value')
+        original_api_key = doc('#api-key').attr('value')
 
-        data = {
-            'reset_api_key': True,
-                }
+        data = {'reset_api_key': True}
         r = client.post(reverse('profile.edit'), data, follow=True)
 
+        doc = pq(r.content)
+        new_api_key = doc('#api-key').attr('value')
+        assert original_api_key != new_api_key
 
 
 class TestVouch(TestCase):
