@@ -110,8 +110,8 @@ def edit_profile(request):
         )
         form.fields['country'].choices = COUNTRIES
 
-    if not request.user.username.startswith('u/'):
-        initial.update(username=request.user.username)
+        if not request.user.username.startswith('u/'):
+            initial.update(username=request.user.username)
 
     # When changing this keep in mind that the same view is used for
     # user.register.
